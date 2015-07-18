@@ -1,6 +1,6 @@
 package start
 
 func HelloWorld() string {
-		phrase := "Hello, Shig-Neru"
-		return phrase
+	phrase := "Hello, Shig-Neru"
+	return phrase
 }
