@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/x-ample/inform-me/start"
+	"github.com/x-ample/inform-me/crawler"
 )
 
 func main() {
-	fmt.Println(start.HelloWorld())
+	crawler.Crawler()
 }
