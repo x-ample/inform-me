@@ -1,8 +1,9 @@
 package crawler
 
 import (
+	"golang.org/x/net/html"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -17,7 +18,25 @@ func Crawler() {
 		fmt.Printf("%v\n", err)
 	}
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	links := parser(resp.Body)
+	fmt.Printf("%s\n", links)
+}
 
-	fmt.Printf("%v\n", string(body))
+func parser(httpBody io.Reader) []string {
+	links := make([]string, 0)
+	page := html.NewTokenizer(httpBody)
+	for {
+		tokenType := page.Next()
+		if tokenType == html.ErrorToken {
+			return links
+		}
+		token := page.Token()
+		if tokenType == html.StartTagToken && token.DataAtom.String() == "a" {
+			for _, attr := range token.Attr {
+				if attr.Key == "href" {
+					links = append(links, attr.Val)
+				}
+			}
+		}
+	}
 }
